@@ -46,8 +46,9 @@ public class PlayerController : MonoBehaviour
         if (!Input.GetButton("Fire1") || !(Time.time > _nextFire)) return;
 
         _nextFire = Time.time + FireRate;
-
-        if (_fireType == FireType.Spray)
+		GetComponent<AudioSource>().Play ();
+        
+		if (_fireType == FireType.Spray)
         {
             Instantiate(Shot, ShotSpawn.position, Quaternion.AngleAxis(10.0f, _yRot));
             Instantiate(Shot, ShotSpawn.position, Quaternion.AngleAxis(5.0f, _yRot));

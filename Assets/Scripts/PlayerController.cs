@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject Shot;
     public Transform ShotSpawn;
+    public Transform EngineFlame;
 
     public float FireRate = 0.5f;
 

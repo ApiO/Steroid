@@ -10,20 +10,38 @@ public class GameController : MonoBehaviour
 	public float spawnWait;
 	public float waveWait;
     public GUIText scoreText;
+    public GUIText restartText;
+    public GUIText gameOverText;
 
-    private int score;
+    private bool _gameOver;
+    private bool _restart;
+    private int _score;
 
 	void Start()
-	{
-	    score = 0;
+    {
+        _gameOver = false;
+        _restart = false;
+        restartText.text = string.Empty;
+        gameOverText.text = string.Empty;
+
+        _score = 0;
 	    UpdateScore();
 
 		StartCoroutine (SpawnWaves());
 	}
 
+    void Update()
+    {
+        if (_restart && Input.GetKeyDown(KeyCode.Return))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
+    }
+
 	IEnumerator SpawnWaves()
 	{
 		yield return new WaitForSeconds(startWait);
+
 		while (true) 
 		{
 			for(int i = 0; i < hazardCount; i++)
@@ -35,18 +53,32 @@ public class GameController : MonoBehaviour
 
 				yield return new WaitForSeconds(spawnWait);
 			}
+
 			yield return new WaitForSeconds(waveWait);
+
+		    if (_gameOver)
+		    {
+		        restartText.text = "Press 'Enter' to restart";
+		        _restart = true;
+		        break;
+		    }
 		}
 	}
 
     public void AddScore(int value)
     {
-        score += value;
+        _score += value;
         UpdateScore();
     }
 
     void UpdateScore()
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "Score: " + _score;
+    }
+
+    public void GameOver()
+    {
+        gameOverText.text = "Game Over";
+        _gameOver = true;
     }
 }

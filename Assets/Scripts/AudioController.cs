@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 
-public delegate void VoidEventHandler();
-
 public class AudioController : MonoBehaviour
 {
     public AudioSource gameAudioSource;
     public AudioSource palyerAudioSource;
-    public event VoidEventHandler MuteChanged;
     public bool muteOnStart;
 
     public bool mute
@@ -34,7 +31,13 @@ public class AudioController : MonoBehaviour
     private void ToggleMute()
     {
         mute = !mute;
-        gameAudioSource.mute = mute;
-        palyerAudioSource.mute = mute;
+        if (gameAudioSource != null)
+        {
+            gameAudioSource.mute = mute;
+        }
+        if (palyerAudioSource != null)
+        {
+            palyerAudioSource.mute = mute;
+        }
     }
 }

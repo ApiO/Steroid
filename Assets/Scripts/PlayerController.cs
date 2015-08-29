@@ -12,11 +12,9 @@ public class PlayerController : MonoBehaviour
     public float Speed;
     public float Tilt;
     public Boundary Boundary;
-
     public GameObject Shot;
     public Transform ShotSpawn;
-    public Transform EngineFlame;
-
+    public float ForwardSpeed;
     public float FireRate = 0.5f;
 
     private float _nextFire;
@@ -26,8 +24,9 @@ public class PlayerController : MonoBehaviour
     {
         _nextFire = 0.0f;
         _rigidBody = GetComponent<Rigidbody>();
+        _rigidBody.velocity = new Vector3(0.0f, 0.0f, ForwardSpeed);
     }
-
+    
     void Update()
     {
         if (!Input.GetButton("Fire1") || !(Time.time > _nextFire)) return;
@@ -43,15 +42,17 @@ public class PlayerController : MonoBehaviour
         var moveHorizontal = Input.GetAxis("Horizontal");
         var moveVertical = Input.GetAxis("Vertical");
 
-        var movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        var movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
 
         _rigidBody.velocity = movement * Speed;
-        _rigidBody.rotation = Quaternion.Euler(0.0f, 0.0f, _rigidBody.velocity.x * -Tilt);
+        _rigidBody.rotation = Quaternion.Euler(movement * -Tilt);
+        /*
         _rigidBody.position = new Vector3
         (
             Mathf.Clamp(_rigidBody.position.x, Boundary.XMin, Boundary.XMax),
             0.0f,
             Mathf.Clamp(_rigidBody.position.z, Boundary.ZMin, Boundary.ZMax)
         );
+        */
     }
 }

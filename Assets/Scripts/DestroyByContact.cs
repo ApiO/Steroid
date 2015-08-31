@@ -26,6 +26,11 @@ public class DestroyByContact : MonoBehaviour
 		if (other.tag == "Boundary" || other.tag == "Asteroid") {
 			return;
 		}
+
+		if (tag == "Boundary" && other.tag == "Player") {
+			//TODO: change player orientation
+			return;
+		}
 		
 		Instantiate (explosion, transform.position, transform.rotation);
 

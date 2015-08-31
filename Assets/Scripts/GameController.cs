@@ -15,7 +15,8 @@ public class GameController : MonoBehaviour
 
     private bool _gameOver;
     private bool _restart;
-    private int _score;
+	private int _score;
+	private float _sceneRadius;
 
 	void Start()
     {
@@ -26,6 +27,18 @@ public class GameController : MonoBehaviour
 
         _score = 0;
 	    UpdateScore();
+
+		SceneController sceneController = null;
+		GameObject sceneControllerObject = GameObject.FindWithTag("SceneController");
+		if (sceneControllerObject != null)
+		{
+			sceneController = sceneControllerObject.GetComponent<SceneController>();
+		}
+		if (sceneController == null)
+		{
+			Debug.Log("Cannot find 'SceneController' script");
+		}
+		_sceneRadius = sceneController.sceneRadius;
 
 		StartCoroutine (SpawnWaves());
 	}
@@ -41,12 +54,13 @@ public class GameController : MonoBehaviour
 	IEnumerator SpawnWaves()
 	{
 		yield return new WaitForSeconds(startWait);
-
 		while (true) 
 		{
 			for(int i = 0; i < hazardCount; i++)
 			{
-				Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+				Vector3 spawnPosition = new Vector3(Random.Range(-_sceneRadius+1, _sceneRadius-1),
+				                                    Random.Range(-_sceneRadius+1, _sceneRadius-1),
+				                                    Random.Range(-_sceneRadius+1, _sceneRadius-1));
 				Quaternion spawnRotation = Quaternion.identity;
 
 				Instantiate(hazard, spawnPosition, spawnRotation);

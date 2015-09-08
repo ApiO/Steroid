@@ -9,17 +9,20 @@ public class PlayerController : MonoBehaviour
     public Transform ShotSpawn;
     public float ForwardSpeed;
     public float FireRate = 0.5f;
+	public float speed;
 
 	private SceneController scene;
     private float _nextFire;
     private Rigidbody _rigidBody;
 	private float _sceneRadius;
+	private Vector3 _orientation;
 
     void Start()
     {
         _nextFire = 0.0f;
         _rigidBody = GetComponent<Rigidbody>();
         _rigidBody.velocity = new Vector3(0.0f, 0.0f, ForwardSpeed);
+		_orientation = Vector3.forward;
 
 		SceneController sceneController = null;
 		GameObject sceneControllerObject = GameObject.FindWithTag("SceneController");
@@ -42,10 +45,25 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<AudioSource>().Play();
         Instantiate(Shot, ShotSpawn.position, ShotSpawn.rotation);
+
     }
 
     void FixedUpdate()
-    {
+	{
+		var moveHorizontal = Input.GetAxis("Horizontal");
+		if (moveHorizontal != 0) {
+			_orientation.y += moveHorizontal;
+		}
+
+		var moveVertical = Input.GetAxis("Vertical");
+		if (moveVertical != 0) {
+			_orientation.x += moveVertical;
+		}
+				
+		_rigidBody.velocity = _orientation * Time.deltaTime * speed;
+		//_rigidBody.rotation = Quaternion.Euler(_orientation);
+
+		/*
         var moveHorizontal = Input.GetAxis("Horizontal");
         var moveVertical = Input.GetAxis("Vertical");
 
@@ -59,5 +77,6 @@ public class PlayerController : MonoBehaviour
 			Mathf.Clamp(_rigidBody.position.z, -_sceneRadius, _sceneRadius),
 			Mathf.Clamp(_rigidBody.position.z, -_sceneRadius, _sceneRadius)
         );
+		 */
     }
 }

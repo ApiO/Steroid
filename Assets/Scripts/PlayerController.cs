@@ -37,33 +37,47 @@ public class PlayerController : MonoBehaviour
 		_sceneRadius = sceneController.sceneRadius;
     }
     
-    void Update()
-    {
-        if (!Input.GetButton("Fire1") || !(Time.time > _nextFire)) return;
-
-        _nextFire = Time.time + FireRate;
-
-        GetComponent<AudioSource>().Play();
-        Instantiate(Shot, ShotSpawn.position, ShotSpawn.rotation);
-
-    }
-
-    void FixedUpdate()
+	private void UpdateFire()
 	{
+		if (!Input.GetButton ("Fire1") || !(Time.time > _nextFire))
+			return;
+			
+		_nextFire = Time.time + FireRate;
+		
+		GetComponent<AudioSource> ().Play ();
+		Instantiate (Shot, ShotSpawn.position, ShotSpawn.rotation);
+	}
+
+	private void UpdateControl()
+	{
+		bool update = false;
 		var moveHorizontal = Input.GetAxis("Horizontal");
 		if (moveHorizontal != 0) {
-			_orientation.y += moveHorizontal;
+			_orientation.y += (moveHorizontal > 0 ? 1 : -1)* Time.deltaTime * speed;
+			update = true;
 		}
-
+		
 		var moveVertical = Input.GetAxis("Vertical");
 		if (moveVertical != 0) {
-			_orientation.x += moveVertical;
+			_orientation.x += (moveVertical> 0 ? 1 : -1) * Time.deltaTime * speed;
+			update = true;
 		}
-				
-		_rigidBody.velocity = _orientation * Time.deltaTime * speed;
-		//_rigidBody.rotation = Quaternion.Euler(_orientation);
+		
+		if (!update) return;
+		
+		_rigidBody.velocity = _orientation;
+	}
 
-		/*
+
+    void Update()
+    {
+		UpdateFire();
+		UpdateControl();
+	}
+	
+	/*
+	void FixedUpdate()
+	{
         var moveHorizontal = Input.GetAxis("Horizontal");
         var moveVertical = Input.GetAxis("Vertical");
 
@@ -77,6 +91,6 @@ public class PlayerController : MonoBehaviour
 			Mathf.Clamp(_rigidBody.position.z, -_sceneRadius, _sceneRadius),
 			Mathf.Clamp(_rigidBody.position.z, -_sceneRadius, _sceneRadius)
         );
+	}
 		 */
-    }
 }

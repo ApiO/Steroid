@@ -9,14 +9,18 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
+		/*
         _offset = transform.position - target.position;
+		*/
     }
 
     void FixedUpdate()
     {
+		/*
         if (target == null) return;
 
         Vector3 targetCamPos = target.position + _offset;
         transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+		*/
     }
 }

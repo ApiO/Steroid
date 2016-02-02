@@ -1,9 +1,9 @@
 # Steroid
-Steroïd is an anhanced version of the [Unity "Space shooter" tutorial](http://unity3d.com/learn/tutorials/projects/space-shooter-tutorial)
+Steroïd will be an anhanced version of the [Unity "Space shooter" tutorial](http://unity3d.com/learn/tutorials/projects/space-shooter-tutorial)
 
 ![](http://unity3d.com/sites/default/files/learn-playlist/icon/spaceshooter-thumb1.jpg)
 
-Features:
+Planed features:
 - Rebalance for more nervosity
 - Free fly in 3D
 - Skybox

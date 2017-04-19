@@ -1,3 +1,5 @@
+Note: This project is no longer active
+
 # Steroid
 Steroïd will be an anhanced version of the [Unity "Space shooter" tutorial](http://unity3d.com/learn/tutorials/projects/space-shooter-tutorial)
 
